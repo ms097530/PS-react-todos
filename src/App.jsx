@@ -9,21 +9,22 @@ function App()
 
   const addTodo = (e) =>
   {
-    if (e.target.value.trim() !== '')
-    {
-      // create todo object
-      const newTodo = {
-        text: e.target.value,
-        id: Date.now(),
-        completed: false
-      }
+    if (e.target.value.trim() === '')
+      return
 
-      // add new todo to the array
-      setTodos(prevTodos => [...prevTodos, newTodo])
-
-      // reset the input
-      e.target.value = ''
+    // create todo object
+    const newTodo = {
+      text: e.target.value,
+      id: Date.now(),
+      completed: false
     }
+
+    // add new todo to the array
+    setTodos(prevTodos => [...prevTodos, newTodo])
+
+    // reset the input
+    e.target.value = ''
+
   }
 
   return (
