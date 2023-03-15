@@ -11,14 +11,27 @@ export default function TodoList(props)
             addTodo(e)
     }
 
+    const completedTodos = todos.filter(todo => todo.completed)
+    const incompleteTodos = todos.filter(todo => !todo.completed)
+
     return (
         <>
-            <p>Create Todo</p>
+            <h2>Create Todo</h2>
             <input type="text" placeholder="Walk the dog..." name="" id="" onKeyDown={submitTodo} />
-            <p>Todos Length: {todos.length}</p>
-            {
-                todos.map(todo => <Todo todo={todo} key={todo.id} />)
-            }
+            <h3>Todos</h3>
+            <ul className="todolist">
+                {incompleteTodos.length > 0 ? '' : <p>No todos!</p>}
+                {
+                    incompleteTodos.map(incompleteTodo => <Todo todo={incompleteTodo} key={incompleteTodo.id} />)
+                }
+            </ul>
+            <h3>Completed Todos</h3>
+            <ul className="todolist">
+                {completedTodos.length > 0 ? '' : <p>No todos!</p>}
+                {
+                    completedTodos.map(completedTodo => <Todo todo={completedTodo} key={completedTodo.id} />)
+                }
+            </ul>
         </>
     )
 }
