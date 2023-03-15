@@ -16,9 +16,9 @@ export default function TodoList(props)
 
     return (
         <>
-            <h2>Create Todo</h2>
+            <h1>Create Todo</h1>
             <input type="text" placeholder="Walk the dog..." name="" id="" onKeyDown={submitTodo} />
-            <h3>Todos</h3>
+            <h1>Todos</h1>
             <ul className="todolist">
                 {incompleteTodos.length > 0 ? '' : <p>No todos!</p>}
                 {
@@ -31,7 +31,7 @@ export default function TodoList(props)
                             deleteTodo={deleteTodo} />)
                 }
             </ul>
-            <h3>Completed Todos</h3>
+            <h1>Completed Todos</h1>
             <ul className="todolist">
                 {completedTodos.length > 0 ? '' : <p>No todos!</p>}
                 {
