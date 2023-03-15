@@ -2,7 +2,7 @@ import Todo from "./Todo"
 
 export default function TodoList(props)
 {
-    const { todos, addTodo } = props
+    const { todos, addTodo, toggleTodoStatus, editTodoText, deleteTodo } = props
 
     const submitTodo = (e) =>
     {
@@ -22,14 +22,26 @@ export default function TodoList(props)
             <ul className="todolist">
                 {incompleteTodos.length > 0 ? '' : <p>No todos!</p>}
                 {
-                    incompleteTodos.map(incompleteTodo => <Todo todo={incompleteTodo} key={incompleteTodo.id} />)
+                    incompleteTodos.map(incompleteTodo =>
+                        <Todo
+                            todo={incompleteTodo}
+                            key={incompleteTodo.id}
+                            toggleComplete={toggleTodoStatus}
+                            editText={editTodoText}
+                            deleteTodo={deleteTodo} />)
                 }
             </ul>
             <h3>Completed Todos</h3>
             <ul className="todolist">
                 {completedTodos.length > 0 ? '' : <p>No todos!</p>}
                 {
-                    completedTodos.map(completedTodo => <Todo todo={completedTodo} key={completedTodo.id} />)
+                    completedTodos.map(completedTodo =>
+                        <Todo
+                            todo={completedTodo}
+                            key={completedTodo.id}
+                            toggleComplete={toggleTodoStatus}
+                            editText={editTodoText}
+                            deleteTodo={deleteTodo} />)
                 }
             </ul>
         </>
