@@ -5,11 +5,7 @@ import TodoList from './components/TodoList';
 
 function App()
 {
-  // using custom hook
-  // const [todos, setTodos] = useLocalStorage('todos', [])
-
-  // using state
-  // const [todos, setTodos] = useState([])
+  // moved initialization logic out of useEffect to fix issue where multiple useEffects were causing issues with each other
   const [todos, setTodos] = useState(() =>
   {
     const savedTodos = localStorage.getItem('todos')
@@ -23,17 +19,6 @@ function App()
       return []
     }
   })
-
-  // initialize with localStorage if value exists
-  // useEffect(() =>
-  // {
-  //   const savedTodos = localStorage.getItem('todos')
-  //   if (savedTodos && savedTodos !== 'undefined' && savedTodos !== 'null')
-  //   {
-  //     console.log('setting todos from localStorage')
-  //     setTodos(JSON.parse(savedTodos))
-  //   }
-  // }, [])
 
   // trying to update todos on change to todos - not working
   useEffect(() =>
@@ -58,7 +43,6 @@ function App()
       setTodos(prevTodos =>
       {
         let newTodos = [...prevTodos, newTodo]
-        // localStorage.setItem('todos', JSON.stringify(newTodos))
         return newTodos
       })
 
@@ -80,8 +64,7 @@ function App()
         i === matchingIndex ?
           { ...todo, completed: !todo.completed }
           : todo)
-      // save new array of todos to localStorage
-      // localStorage.setItem('todos', JSON.stringify(newTodos))
+
       return newTodos
     })
   }
@@ -99,7 +82,7 @@ function App()
           i === matchingIndex ?
             { ...todo, text: e.target.value }
             : todo)
-        // localStorage.setItem('todos', JSON.stringify(newTodos))
+
         return newTodos
       })
     }
@@ -111,7 +94,7 @@ function App()
     setTodos(prevTodos =>
     {
       let newTodos = prevTodos.filter(todo => todo.id !== id)
-      // localStorage.setItem('todos', JSON.stringify(newTodos))
+
       return newTodos
     })
   }
