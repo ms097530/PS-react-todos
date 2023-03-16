@@ -6,10 +6,23 @@ import TodoList from './components/TodoList';
 function App()
 {
   // using custom hook
-  const [todos, setTodos] = useLocalStorage('todos', [])
+  // const [todos, setTodos] = useLocalStorage('todos', [])
 
   // using state
   // const [todos, setTodos] = useState([])
+  const [todos, setTodos] = useState(() =>
+  {
+    const savedTodos = localStorage.getItem('todos')
+    if (savedTodos && savedTodos !== 'undefined' && savedTodos !== 'null')
+    {
+      console.log('setting todos from localStorage')
+      return JSON.parse(savedTodos)
+    }
+    else
+    {
+      return []
+    }
+  })
 
   // initialize with localStorage if value exists
   // useEffect(() =>
@@ -23,11 +36,11 @@ function App()
   // }, [])
 
   // trying to update todos on change to todos - not working
-  // useEffect(() =>
-  // {
-  //   console.log('updating localStorage')
-  //   localStorage.setItem('todos', JSON.stringify(todos))
-  // }, [todos])
+  useEffect(() =>
+  {
+    console.log('updating localStorage')
+    localStorage.setItem('todos', JSON.stringify(todos))
+  }, [todos])
 
   const addTodo = (e) =>
   {
