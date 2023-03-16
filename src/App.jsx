@@ -1,11 +1,33 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import useLocalStorage from './hooks/useLocalStorage';
 import './App.css';
 import TodoList from './components/TodoList';
 
 function App()
 {
+  // using custom hook
+  const [todos, setTodos] = useLocalStorage('todos', [])
 
-  const [todos, setTodos] = useState([])
+  // using state
+  // const [todos, setTodos] = useState([])
+
+  // initialize with localStorage if value exists
+  // useEffect(() =>
+  // {
+  //   const savedTodos = localStorage.getItem('todos')
+  //   if (savedTodos && savedTodos !== 'undefined' && savedTodos !== 'null')
+  //   {
+  //     console.log('setting todos from localStorage')
+  //     setTodos(JSON.parse(savedTodos))
+  //   }
+  // }, [])
+
+  // trying to update todos on change to todos - not working
+  // useEffect(() =>
+  // {
+  //   console.log('updating localStorage')
+  //   localStorage.setItem('todos', JSON.stringify(todos))
+  // }, [todos])
 
   const addTodo = (e) =>
   {
@@ -20,7 +42,13 @@ function App()
       }
 
       // add new todo to the array
-      setTodos(prevTodos => [...prevTodos, newTodo])
+      setTodos(prevTodos =>
+      {
+        let newTodos = [...prevTodos, newTodo]
+        // localStorage.setItem('todos', JSON.stringify(newTodos))
+        return newTodos
+      })
+
     }
 
     // reset the input
@@ -34,11 +62,14 @@ function App()
       // find element in todos that is being toggled
       let matchingIndex = prevTodos.findIndex(todo => todo.id === id)
 
-      // return new todos array where todo at matchingIndex has it's completed value toggled
-      return prevTodos.map((todo, i) =>
+      // get new array where target todo has its complete status toggle
+      let newTodos = prevTodos.map((todo, i) =>
         i === matchingIndex ?
           { ...todo, completed: !todo.completed }
           : todo)
+      // save new array of todos to localStorage
+      // localStorage.setItem('todos', JSON.stringify(newTodos))
+      return newTodos
     })
   }
 
@@ -51,10 +82,12 @@ function App()
       {
         let matchingIndex = prevTodos.findIndex(todo => todo.id === id)
 
-        return prevTodos.map((todo, i) =>
+        let newTodos = prevTodos.map((todo, i) =>
           i === matchingIndex ?
             { ...todo, text: e.target.value }
             : todo)
+        // localStorage.setItem('todos', JSON.stringify(newTodos))
+        return newTodos
       })
     }
     e.target.value = ''
@@ -64,7 +97,9 @@ function App()
   {
     setTodos(prevTodos =>
     {
-      return prevTodos.filter(todo => todo.id !== id)
+      let newTodos = prevTodos.filter(todo => todo.id !== id)
+      // localStorage.setItem('todos', JSON.stringify(newTodos))
+      return newTodos
     })
   }
 
